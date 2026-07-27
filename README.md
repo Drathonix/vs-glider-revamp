@@ -1,5 +1,10 @@
 # Glider Revamp
 
+## Drathon's Fork Features
+1. Updated to the most recent game version.
+2. Custom events for glide physics calculations for developers.
+3. Fixes a vanilla bug that causes glider animation stutters.
+
 ## Core functionality
 
 An attempt to enhance the glider physics system.
