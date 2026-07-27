@@ -26,7 +26,7 @@ public class GliderEvents
     private static event CalculateActivationSpeedHandler CalculateActivationSpeed;
 
     public delegate float CalculateTurnRateHandler(Entity entity, EntityPos pos, float turnrate);
-    private static event CalculateTurnRateHandler CalculateTurnRateSpeed;
+    private static event CalculateTurnRateHandler CalculateTurnRate;
 
     public delegate bool BeforeGliderPhysicsCalculationsHandler(PModulePlayerInAir pModule, float dt, Entity entity, EntityPos pos, EntityControls controls);
     private static event BeforeGliderPhysicsCalculationsHandler BeforePhysicsCalculations;
@@ -69,8 +69,8 @@ public class GliderEvents
     public static void RegisterCalculateTurnRate(CalculateTurnRateHandler del, int priority = int.MaxValue)
     {
         EventExtensions.AddWithPriority(del, priority,
-            d => CalculateTurnRateHandler += d,
-            d => CalculateTurnRateHandler -= d);
+            d => CalculateTurnRate += d,
+            d => CalculateTurnRate -= d);
     }
 
     internal static float InvokeCalculateActivationSpeed(Entity entity, EntityPos pos, float activation)
@@ -109,9 +109,9 @@ public class GliderEvents
 
     internal static float InvokeCalculateTurnRate(Entity entity, EntityPos pos, float rate)
     {
-        if (CalculateClimbCoefficient != null) foreach (var item in CalculateClimbCoefficient?.GetInvocationList())
+        if (CalculateTurnRate != null) foreach (var item in CalculateTurnRate?.GetInvocationList())
         {
-            rate = ((CalculateClimbCoefficientHandler)item).Invoke(entity, pos, rate);
+            rate = ((CalculateTurnRateHandler)item).Invoke(entity, pos, rate);
         }
         return rate;
     }

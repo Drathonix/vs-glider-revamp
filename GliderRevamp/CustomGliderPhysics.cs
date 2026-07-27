@@ -55,7 +55,7 @@ public class CustomGliderPhysics
         var vDir = v.Normalize();
         var viewDir = pos.GetViewVector().ToVec3d().Normalize();
 
-        var turnRateRadPerSec = config.TurnRate * (float)Math.PI / 180f;
+        var turnRateRadPerSec = GliderEvents.InvokeCalculateTurnRate(entity,pos,config.TurnRate) * (float)Math.PI / 180f;
         var maxTurn = turnRateRadPerSec * dt;
 
         var newDir = RotateTowards(vDir, viewDir, maxTurn);
