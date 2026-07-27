@@ -20,7 +20,7 @@ public sealed class GliderRevampModSystem : ModSystem
         {
             SubscribeToConfigChange(api);
         }
-        
+        GliderEvents.Init();
         _harmony = new Harmony(HarmonyId);
         _harmony.PatchAll(Assembly.GetExecutingAssembly());
     }

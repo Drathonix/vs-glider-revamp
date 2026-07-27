@@ -1,11 +1,13 @@
+﻿using GliderRevamp.Patches;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.API.MathTools;
 
-namespace GliderRevamp.Patches;
+namespace GliderRevamp;
 
-[HarmonyPatch(typeof(PModulePlayerInAir), "ApplyFlying"), UsedImplicitly]
-public class GliderRevamp_PModulePlayerInAir_ApplyFlying
+public class CustomGliderPhysics
 {
     private static Vec3d RotateTowards(Vec3d fromDir, Vec3d toDir, double maxRadians)
     {
@@ -26,13 +28,11 @@ public class GliderRevamp_PModulePlayerInAir_ApplyFlying
         var blended = fromDir * a + toDir * b;
         return blended.Normalize();
     }
-    
-    [UsedImplicitly]
-    internal static bool Prefix(PModulePlayerInAir __instance, float dt, Entity entity, EntityPos pos, EntityControls controls)
+
+    public static bool Calculate(PModulePlayerInAir pModule, float dt, Entity entity, EntityPos pos, EntityControls controls)
     {
         if (!controls.Gliding)
         {
-            GliderRevamp_PModuleInAir_ApplyFlying.ApplyFlying(__instance, dt, entity, pos, controls);
             return false;
         }
 
@@ -40,11 +40,11 @@ public class GliderRevamp_PModulePlayerInAir_ApplyFlying
 
         var v = pos.Motion;
         var speed = v.Length();
-        if (speed < config.StallSpeedMs / 60f || config.DisableGlider)
+        if (speed < GliderEvents.InvokeCalculateStallSpeed(entity,pos,ModConfig.Instance.StallSpeedMs) / 60f || config.DisableGlider)
         {
             controls.Gliding = false;
             controls.GlideSpeed = 0;
-            return false;
+            return true;
         }
 
         if (controls.GlideSpeed <= 0)
@@ -57,24 +57,37 @@ public class GliderRevamp_PModulePlayerInAir_ApplyFlying
 
         var turnRateRadPerSec = config.TurnRate * (float)Math.PI / 180f;
         var maxTurn = turnRateRadPerSec * dt;
-        
+
         var newDir = RotateTowards(vDir, viewDir, maxTurn);
 
         var energy = controls.GlideSpeed;
-        
+
         // Apply lift.
-        energy -= config.ClimbCoefficiency * v.Y * dt;
-        
+        energy -= GliderEvents.InvokeCalculateClimbCoefficient(entity,pos,config.ClimbCoefficiency) * v.Y * dt;
+
         // Apply drag.
-        energy -= config.DragCoefficiency * Math.Max(speed * speed, 0.15f) * dt;
-        
+        energy -= GliderEvents.InvokeCalculateDragCoefficient(entity,pos,config.DragCoefficiency) * Math.Max(speed * speed, 0.15f) * dt;
+
         // Limit new speed to terminal velocity.
         energy = GameMath.Clamp(energy, 0, config.TerminalVelocityMs / 60f);
 
         controls.GlideSpeed = energy;
-        
+
         pos.Motion = newDir * energy;
 
-        return false;
+        return true;
     }
+    public static bool CanGlide(ModSystemGliding system, EntityPlayer entity)
+    {
+        if (ModConfig.Instance.DisableGlider)
+        {
+            return false;
+        }
+        var speedMs = entity.Pos.Motion.Length() * 60f;
+        var activationSpeed = GliderEvents.InvokeCalculateActivationSpeed(entity, entity.Pos, ModConfig.Instance.ActivationSpeedMs);
+        var upwardSpeed = entity.Pos.Motion.Y; // Prevent activation when jumping.
+
+        return !(speedMs < activationSpeed || upwardSpeed > -3f / 60f);
+    }
+
 }

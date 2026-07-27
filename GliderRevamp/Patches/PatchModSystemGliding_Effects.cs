@@ -4,7 +4,7 @@ using Vintagestory.API.MathTools;
 namespace GliderRevamp.Patches;
 
 [HarmonyPatch(typeof(ModSystemGliding), "onClientTick", typeof(float)), UsedImplicitly]
-public static class GliderRevamp_ModSystemGliding_onClientTick
+public static class PatchModSystemGliding_Effects
 {
     private static readonly AccessTools.FieldRef<ModSystemGliding, ICoreClientAPI> CapiRef =
         AccessTools.FieldRefAccess<ModSystemGliding, ICoreClientAPI>("capi");
