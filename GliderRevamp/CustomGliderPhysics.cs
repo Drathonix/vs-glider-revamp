@@ -69,7 +69,7 @@ public class CustomGliderPhysics
         energy -= GliderEvents.InvokeCalculateDragCoefficient(entity,pos,config.DragCoefficiency) * Math.Max(speed * speed, 0.15f) * dt;
 
         // Limit new speed to terminal velocity.
-        energy = GameMath.Clamp(energy, 0, config.TerminalVelocityMs / 60f);
+        energy = GameMath.Clamp(energy, 0, GliderEvents.InvokeCalculateTerminalVelocity(entity,pos,config.TerminalVelocityMs) / 60f);
 
         controls.GlideSpeed = energy;
 

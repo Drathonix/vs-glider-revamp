@@ -28,6 +28,9 @@ public class GliderEvents
     public delegate float CalculateTurnRateHandler(Entity entity, EntityPos pos, float turnrate);
     private static event CalculateTurnRateHandler CalculateTurnRate;
 
+    public delegate float CalculateTerminalVelocityHandler(Entity entity, EntityPos pos, float velocity);
+    private static event CalculateTerminalVelocityHandler CalculateTerminalVelocity;
+
     public delegate bool BeforeGliderPhysicsCalculationsHandler(PModulePlayerInAir pModule, float dt, Entity entity, EntityPos pos, EntityControls controls);
     private static event BeforeGliderPhysicsCalculationsHandler BeforePhysicsCalculations;
 
@@ -73,6 +76,13 @@ public class GliderEvents
             d => CalculateTurnRate -= d);
     }
 
+    public static void RegisterCalculateTerminalVelocity(CalculateTerminalVelocityHandler del, int priority = int.MaxValue)
+    {
+        EventExtensions.AddWithPriority(del, priority,
+            d => CalculateTerminalVelocity += d,
+            d => CalculateTerminalVelocity -= d);
+    }
+
     internal static float InvokeCalculateActivationSpeed(Entity entity, EntityPos pos, float activation)
     {
         if (CalculateActivationSpeed != null) foreach (var item in CalculateActivationSpeed?.GetInvocationList())
@@ -114,6 +124,14 @@ public class GliderEvents
             rate = ((CalculateTurnRateHandler)item).Invoke(entity, pos, rate);
         }
         return rate;
+    }
+    internal static float InvokeCalculateTerminalVelocity(Entity entity, EntityPos pos, float velocity)
+    {
+        if (CalculateTerminalVelocity != null) foreach (var item in CalculateTerminalVelocity?.GetInvocationList())
+        {
+            velocity = ((CalculateTerminalVelocityHandler)item).Invoke(entity, pos, velocity);
+        }
+        return velocity;
     }
     internal static bool InvokeBeforePhysicsCalculations(PModulePlayerInAir pModule, float dt, Entity entity, EntityPos pos, EntityControls controls)
     {
