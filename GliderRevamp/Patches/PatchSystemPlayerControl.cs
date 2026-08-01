@@ -7,6 +7,7 @@ namespace GliderRevamp.Patches;
 
 /// <summary>
 /// Fixes an unusual stutter with glide animations caused by the "IsFlying" variable briefly returning to false.
+/// By Drathon
 /// </summary>
 [HarmonyPatch(typeof(SystemPlayerControl), "OnGameTick")]
 public class PatchSystemPlayerControl
