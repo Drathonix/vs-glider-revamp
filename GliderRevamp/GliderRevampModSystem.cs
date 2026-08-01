@@ -11,9 +11,10 @@ public sealed class GliderRevampModSystem : ModSystem
     private const string HarmonyId = "gliderrevamp";
     private const string ConfigLibId = "configlib";
 
+    public static IServerNetworkChannel ServerChannel;
+
     private Harmony _harmony;
     private GliderSpeedHudElement _gliderSpeedHud;
-    public static IServerNetworkChannel ServerChannel;
 
     public override void Start(ICoreAPI api)
     {

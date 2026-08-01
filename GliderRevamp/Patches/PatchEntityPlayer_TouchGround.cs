@@ -5,16 +5,15 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using Vintagestory.API.Datastructures;
-using Wingworks.API;
 
-namespace Wingworks.Patches;
+namespace GliderRevamp.Patches;
 
 /// <summary>
 /// Synchronize player flying state on touching ground.
 /// By Drathon
 /// </summary>
 [HarmonyPatch(typeof(EntityPlayer),nameof(EntityPlayer.OnFallToGround))]
-public class Wingworks_EntityPlayer_TouchGround
+public class PatchEntityPlayer_TouchGround
 {
     public static void Prefix(EntityPlayer __instance, double motionY)
     {
@@ -23,8 +22,8 @@ public class Wingworks_EntityPlayer_TouchGround
             __instance.Controls.IsFlying = false;
             GliderRevampModSystem.ServerChannel.BroadcastPacket(new Packet_ServerChangeFlightControl
             {
-                Enabled = player.WorldData.EntityControls.IsFlying,
-                EntityID = player.Entity.EntityId
+                Enabled = false,
+                EntityID = __instance.EntityId
             });
         }
     }
