@@ -20,6 +20,10 @@ public static class PatchModSystemGliding_Effects
 
     private static void SoundModulation(ModSystemGliding __instance)
     {
+        if (!ModConfig.Instance.EnableSoundModulation)
+        {
+            return;
+        }
         var cApi = CapiRef(__instance);
         if (cApi == null) return;
 
@@ -61,6 +65,10 @@ public static class PatchModSystemGliding_Effects
     
     private static void Tunnelvision(ModSystemGliding __instance, float dt)
     {
+        if (!ModConfig.Instance.EnableFOVEffects)
+        {
+            return;
+        }
         var cApi = CapiRef(__instance);
 
         var ent = cApi?.World?.Player?.Entity;

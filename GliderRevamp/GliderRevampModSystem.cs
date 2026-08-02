@@ -68,16 +68,6 @@ public sealed class GliderRevampModSystem : ModSystem
     public override void StartServerSide(ICoreServerAPI sapi)
     {
         ServerChannel = sapi.Network.RegisterChannel("gliderrevamp");
-        ServerChannel.RegisterMessageType(typeof(Packet_ServerChangeFlightControl));
-        sapi.Event.PlayerSwitchGameMode += PlayerSwitchGamemode;
-    }
-
-    public void PlayerSwitchGamemode(IServerPlayer player)
-    {
-        ServerChannel.BroadcastPacket(new Packet_ServerChangeFlightControl
-        {
-            Enabled = player.WorldData.EntityControls.IsFlying,
-            EntityID = player.Entity.EntityId
-        });
+        //ServerChannel.RegisterMessageType(typeof(Packet_ServerChangeFlightControl));
     }
 }

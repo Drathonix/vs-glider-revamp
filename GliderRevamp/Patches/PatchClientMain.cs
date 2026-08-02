@@ -11,6 +11,10 @@ public class Patch_Set3DProjection
     
     public static float AdjustFov(float fov)
     {
+        if (!ModConfig.Instance.EnableFOVEffects)
+        {
+            return fov;
+        }
         return fov * FovScale;
     }
 

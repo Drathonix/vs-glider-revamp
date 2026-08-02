@@ -22,6 +22,20 @@
       "default": false
     },
     {
+      "title": "Enable FOV Effects",
+      "code": "EnableFOVEffects",
+      "comment": "Causes the FOV to change with speed",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "title": "Enable Sound Modulation",
+      "code": "EnableSoundModulation",
+      "comment": "Causes the glide sound effect to change pitch with speed",
+      "type": "boolean",
+      "default": true
+    },
+    {
       "type": "separator",
       "title": "Flight Physics"
     },

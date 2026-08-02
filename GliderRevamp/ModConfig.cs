@@ -12,6 +12,8 @@ public sealed class ModConfig
 
     public bool DisableGlider { get; set; } = false;
     public bool ShowSpeed { get; set; } = false;
+    public bool EnableSoundModulation { get; set; } = true;
+    public bool EnableFOVEffects { get; set; } = true;
 
     // ============================================================
     // Flight Physics
@@ -28,4 +30,6 @@ public sealed class ModConfig
     public float ActivationSpeedMs { get; set; } = 8f;
 
     public float TerminalVelocityMs { get; set; } = 40f;  // m/s
+
+    
 }

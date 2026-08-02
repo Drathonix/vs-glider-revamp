@@ -13,14 +13,14 @@ public class ClientNetworkHandler
     {
         api = capi;
         var channel = capi.Network.RegisterChannel("gliderrevamp");
-        channel.RegisterMessageType(typeof(Packet_ServerChangeFlightControl));
-        channel.SetMessageHandler<Packet_ServerChangeFlightControl>(HandleServerChangeFlightControl);
+        //channel.RegisterMessageType(typeof(Packet_ServerChangeFlightControl));
+       // channel.SetMessageHandler<Packet_ServerChangeFlightControl>(HandleServerChangeFlightControl);
     }
-    public static void HandleServerChangeFlightControl(Packet_ServerChangeFlightControl packet)
+    /*public static void HandleServerChangeFlightControl(Packet_ServerChangeFlightControl packet)
     {
         if(api.World.GetEntityById(packet.EntityID) is EntityAgent agent)
         {
             agent.Controls.IsFlying = packet.Enabled;
         }
-    }
+    }*/
 }
