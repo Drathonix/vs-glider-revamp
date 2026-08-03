@@ -1,15 +1,15 @@
 {
     "type": "code",
     "modid": "gliderrevampdrathon",
-    "name": "Glider Revamp (Drathon's Fork)'",
+    "name": "Glider Revamp (Drathon's Fork)",
     "authors": [
       "Hunter404",
       "Drathon"
     ],
     "description": "Makes the glider configurable and more responsive.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "dependencies": {
-        "game": "1.22.3",
+        "game": "1.22.2",
         "configlib": ""
     }
 }
