@@ -33,12 +33,16 @@ public class PatchSystemNetworkProcess
         if(agent is EntityPlayer player)
         {
             IPlayer plr = player.Player;
-            if (!plr.WorldData.FreeMove && !instance.Gliding)
+            if (plr != null && plr.WorldData != null)
             {
-                instance.IsFlying = false;
-            } else if(plr.WorldData.FreeMove || instance.Gliding)
-            {
-                instance.IsFlying = true;
+                if (!plr.WorldData.FreeMove && !instance.Gliding)
+                {
+                    instance.IsFlying = false;
+                }
+                else if (plr.WorldData.FreeMove || instance.Gliding)
+                {
+                    instance.IsFlying = true;
+                }
             }
         }
     }
