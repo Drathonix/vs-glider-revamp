@@ -7,9 +7,8 @@
       "Drathon"
     ],
     "description": "Makes the glider configurable and more responsive.",
-    "version": "1.0.5",
+    "version": "1.0.7",
     "dependencies": {
-        "game": "1.22.2",
-        "configlib": ""
+        "game": "1.22.2"
     }
 }
