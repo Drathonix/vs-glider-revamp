@@ -9,6 +9,7 @@ namespace GliderRevamp.Patches;
 /// Fixes a vanilla bug where the glide animation does not start when for other players in multiplayer.
 /// </summary>
 [HarmonyPatch(typeof(EntityControls), "FromInt")]
+[HarmonyPatchCategory("vanilla")]
 public class PatchEntityControls
 {
     public static void Postfix(EntityControls __instance, int flagsInt)

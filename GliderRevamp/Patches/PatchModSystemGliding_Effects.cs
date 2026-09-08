@@ -4,6 +4,7 @@ using Vintagestory.API.MathTools;
 namespace GliderRevamp.Patches;
 
 [HarmonyPatch(typeof(ModSystemGliding), "onClientTick", typeof(float)), UsedImplicitly]
+[HarmonyPatchCategory("vanilla")]
 public static class PatchModSystemGliding_Effects
 {
     private static readonly AccessTools.FieldRef<ModSystemGliding, ICoreClientAPI> CapiRef =
@@ -86,8 +87,8 @@ public static class PatchModSystemGliding_Effects
                 maxScale: 1.1f
             );
 
-            Patch_Set3DProjection.FovScale = SmoothTo(
-                Patch_Set3DProjection.FovScale,
+            PatchGG_ModSystemGliding_OnClientTick_Fix.FovScale = SmoothTo(
+                PatchGG_ModSystemGliding_OnClientTick_Fix.FovScale,
                 targetScale,
                 responsiveness: 8f,   // 6–12 feels good
                 dt: dt
@@ -96,8 +97,8 @@ public static class PatchModSystemGliding_Effects
         else
         {
             // Smooth back to normal when not gliding
-            Patch_Set3DProjection.FovScale = SmoothTo(
-                Patch_Set3DProjection.FovScale,
+            PatchGG_ModSystemGliding_OnClientTick_Fix.FovScale = SmoothTo(
+                PatchGG_ModSystemGliding_OnClientTick_Fix.FovScale,
                 1.0f,
                 responsiveness: 8f,
                 dt: dt

@@ -7,6 +7,7 @@ using Vintagestory.Client.NoObf;
 namespace GliderRevamp.Patches;
 
 [HarmonyPatch(typeof(SystemNetworkProcess), "HandleSinglePacket", [typeof(Packet_EntityPosition)])]
+[HarmonyPatchCategory("vanilla")]
 public class PatchSystemNetworkProcess
 {
     public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)

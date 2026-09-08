@@ -6,6 +6,7 @@ using Vintagestory.API.MathTools;
 namespace GliderRevamp.Patches;
 
 [HarmonyPatch(typeof(PModulePlayerInAir), "ApplyFlying")]
+[HarmonyPatchCategory("vanilla")]
 public class PatchPModulePlayerInAir
 {
     public static bool Prefix(PModulePlayerInAir __instance, float dt, Entity entity, EntityPos pos, EntityControls controls)
@@ -20,6 +21,7 @@ public class PatchPModulePlayerInAir
 }
 
 [HarmonyPatch(typeof(PModuleInAir), "ApplyFlying")]
+[HarmonyPatchCategory("vanilla")]
 public class ReversePatch
 {
     [HarmonyReversePatch, MethodImpl(MethodImplOptions.NoInlining)]

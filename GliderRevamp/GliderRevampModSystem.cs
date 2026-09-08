@@ -22,9 +22,16 @@ public sealed class GliderRevampModSystem : ModSystem
         {
             SubscribeToConfigChange(api);
         }
+
         _harmony = new Harmony(HarmonyId);
-        _harmony.PatchAll(Assembly.GetExecutingAssembly());
-        
+        _harmony.PatchCategory(Assembly.GetExecutingAssembly(), "vanilla");
+        _harmony.PatchCategory(Assembly.GetExecutingAssembly(), "vanilla");
+
+        if (api.ModLoader.IsModEnabled("madcrowglider"))
+        {
+            _harmony.PatchCategory(Assembly.GetExecutingAssembly(), "madcrowglider");
+        }
+
         GliderEvents.Init();
     }
 

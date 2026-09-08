@@ -5,7 +5,8 @@ using Vintagestory.Client.NoObf;
 namespace GliderRevamp.Patches;
 
 [HarmonyPatch(typeof(ClientMain), nameof(ClientMain.Set3DProjection), typeof(float), typeof(float))]
-public class Patch_Set3DProjection
+[HarmonyPatchCategory("vanilla")]
+public class PatchGG_ModSystemGliding_OnClientTick_Fix
 {
     internal static float FovScale = 1f;
     
@@ -28,7 +29,7 @@ public class Patch_Set3DProjection
             new(OpCodes.Ldarg_2),
             new(
                 OpCodes.Call,
-                AccessTools.Method(typeof(Patch_Set3DProjection), nameof(AdjustFov))
+                AccessTools.Method(typeof(PatchGG_ModSystemGliding_OnClientTick_Fix), nameof(AdjustFov))
             ),
             new(OpCodes.Starg_S, 2)
         };

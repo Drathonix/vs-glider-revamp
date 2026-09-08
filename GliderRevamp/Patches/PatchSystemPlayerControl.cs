@@ -10,6 +10,7 @@ namespace GliderRevamp.Patches;
 /// By Drathon
 /// </summary>
 [HarmonyPatch(typeof(SystemPlayerControl), "OnGameTick")]
+[HarmonyPatchCategory("vanilla")]
 public class PatchSystemPlayerControl
 {
     public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -29,6 +30,7 @@ public class PatchSystemPlayerControl
 }
 
 [HarmonyPatch]
+[HarmonyPatchCategory("vanilla")]
 public class ReversePatchB
 {
     [HarmonyReversePatch]
