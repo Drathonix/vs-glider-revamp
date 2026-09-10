@@ -24,12 +24,10 @@ public sealed class GliderRevampModSystem : ModSystem
         }
 
         _harmony = new Harmony(HarmonyId);
-        _harmony.PatchCategory(Assembly.GetExecutingAssembly(), "vanilla");
-        _harmony.PatchCategory(Assembly.GetExecutingAssembly(), "vanilla");
-
+        _harmony.PatchAll(Assembly.GetExecutingAssembly());
         if (api.ModLoader.IsModEnabled("madcrowglider"))
         {
-            _harmony.PatchCategory(Assembly.GetExecutingAssembly(), "madcrowglider");
+            MadCrowPatches.Run(_harmony);
         }
 
         GliderEvents.Init();

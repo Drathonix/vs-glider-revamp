@@ -4,10 +4,9 @@ using System.Reflection.Emit;
 using System.Text;
 using Vintagestory.Client.NoObf;
 
-namespace GliderRevamp.Patches;
+namespace GliderRevamp.Patches.Vanilla;
 
 [HarmonyPatch(typeof(SystemNetworkProcess), "HandleSinglePacket", [typeof(Packet_EntityPosition)])]
-[HarmonyPatchCategory("vanilla")]
 public class PatchSystemNetworkProcess
 {
     public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)

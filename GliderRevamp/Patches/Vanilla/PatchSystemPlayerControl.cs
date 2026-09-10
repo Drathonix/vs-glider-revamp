@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using Vintagestory.Client.NoObf;
 
-namespace GliderRevamp.Patches;
+namespace GliderRevamp.Patches.Vanilla;
 
 /// <summary>
 /// Fixes an unusual stutter with glide animations caused by the "IsFlying" variable briefly returning to false.
 /// By Drathon
 /// </summary>
 [HarmonyPatch(typeof(SystemPlayerControl), "OnGameTick")]
-[HarmonyPatchCategory("vanilla")]
 public class PatchSystemPlayerControl
 {
     public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -30,7 +29,7 @@ public class PatchSystemPlayerControl
 }
 
 [HarmonyPatch]
-[HarmonyPatchCategory("vanilla")]
+[HarmonyPatchCategory("reversepatch")]
 public class ReversePatchB
 {
     [HarmonyReversePatch]

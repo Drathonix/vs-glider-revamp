@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using Vintagestory.Client.NoObf;
 
-namespace GliderRevamp.Patches;
+namespace GliderRevamp.Patches.Vanilla;
 
 [HarmonyPatch(typeof(ClientMain), nameof(ClientMain.Set3DProjection), typeof(float), typeof(float))]
-[HarmonyPatchCategory("vanilla")]
-public class PatchGG_ModSystemGliding_OnClientTick_Fix
+public class PatchClientMain
 {
     internal static float FovScale = 1f;
     
@@ -29,7 +28,7 @@ public class PatchGG_ModSystemGliding_OnClientTick_Fix
             new(OpCodes.Ldarg_2),
             new(
                 OpCodes.Call,
-                AccessTools.Method(typeof(PatchGG_ModSystemGliding_OnClientTick_Fix), nameof(AdjustFov))
+                AccessTools.Method(typeof(PatchClientMain), nameof(AdjustFov))
             ),
             new(OpCodes.Starg_S, 2)
         };

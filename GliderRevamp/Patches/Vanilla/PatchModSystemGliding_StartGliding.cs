@@ -1,7 +1,6 @@
-namespace GliderRevamp.Patches;
+namespace GliderRevamp.Patches.Vanilla;
 
 [HarmonyPatch(typeof(ModSystemGliding), "Input_InWorldAction")]
-[HarmonyPatchCategory("vanilla")]
 public class PatchModSystemGliding_StartGliding
 {
     private static readonly AccessTools.FieldRef<ModSystemGliding, ICoreClientAPI> CapiRef
