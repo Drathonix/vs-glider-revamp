@@ -11,79 +11,79 @@ namespace GliderRevamp;
 public class GliderEvents
 {
     public delegate bool TryStartGlideHandler(ModSystemGliding system, EntityPlayer entity);
-    public static event TryStartGlideHandler TryStartGlide;
+    public event TryStartGlideHandler TryStartGlide;
 
     public delegate float CalculateDragCoefficientHandler(Entity entity, EntityPos pos, float drag);
-    private static event CalculateDragCoefficientHandler CalculateDragCoefficient;
+    private event CalculateDragCoefficientHandler CalculateDragCoefficient;
 
     public delegate float CalculateClimbCoefficientHandler(Entity entity, EntityPos pos, float climb);
-    private static event CalculateClimbCoefficientHandler CalculateClimbCoefficient;
+    private event CalculateClimbCoefficientHandler CalculateClimbCoefficient;
 
     public delegate float CalculateStallSpeedHandler(Entity entity, EntityPos pos, float stall);
-    private static event CalculateStallSpeedHandler CalculateStallSpeed;
+    private event CalculateStallSpeedHandler CalculateStallSpeed;
 
     public delegate float CalculateActivationSpeedHandler(Entity entity, EntityPos pos, float activation);
-    private static event CalculateActivationSpeedHandler CalculateActivationSpeed;
+    private event CalculateActivationSpeedHandler CalculateActivationSpeed;
 
     public delegate float CalculateTurnRateHandler(Entity entity, EntityPos pos, float turnrate);
-    private static event CalculateTurnRateHandler CalculateTurnRate;
+    private event CalculateTurnRateHandler CalculateTurnRate;
 
     public delegate float CalculateTerminalVelocityHandler(Entity entity, EntityPos pos, float velocity);
-    private static event CalculateTerminalVelocityHandler CalculateTerminalVelocity;
+    private event CalculateTerminalVelocityHandler CalculateTerminalVelocity;
 
     public delegate bool BeforeGliderPhysicsCalculationsHandler(PModulePlayerInAir pModule, float dt, Entity entity, EntityPos pos, EntityControls controls);
-    private static event BeforeGliderPhysicsCalculationsHandler BeforePhysicsCalculations;
+    private event BeforeGliderPhysicsCalculationsHandler BeforePhysicsCalculations;
 
-    public static void RegisterBeforeGliderPhysicsCalculations(BeforeGliderPhysicsCalculationsHandler del, int priority = int.MaxValue){
+    public void RegisterBeforeGliderPhysicsCalculations(BeforeGliderPhysicsCalculationsHandler del, int priority = int.MaxValue){
         // I POSSESS GREAT AND TERRIFYING POWER! HAHA!
         EventExtensions.AddWithPriority(del, priority, 
             d => BeforePhysicsCalculations += d, 
             d => BeforePhysicsCalculations -= d);
     }
 
-    public static void RegisterCalculateDragCoefficient(CalculateDragCoefficientHandler del, int priority = int.MaxValue)
+    public void RegisterCalculateDragCoefficient(CalculateDragCoefficientHandler del, int priority = int.MaxValue)
     {
         EventExtensions.AddWithPriority(del, priority,
             d => CalculateDragCoefficient += d,
             d => CalculateDragCoefficient -= d);
     }
 
-    public static void RegisterCalculateClimbCoefficient(CalculateClimbCoefficientHandler del, int priority = int.MaxValue)
+    public void RegisterCalculateClimbCoefficient(CalculateClimbCoefficientHandler del, int priority = int.MaxValue)
     {
         EventExtensions.AddWithPriority(del, priority,
             d => CalculateClimbCoefficient += d,
             d => CalculateClimbCoefficient -= d);
     }
 
-    public static void RegisterCalculateStallSpeed(CalculateStallSpeedHandler del, int priority = int.MaxValue)
+    public void RegisterCalculateStallSpeed(CalculateStallSpeedHandler del, int priority = int.MaxValue)
     {
         EventExtensions.AddWithPriority(del, priority,
             d => CalculateStallSpeed += d,
             d => CalculateStallSpeed -= d);
     }
 
-    public static void RegisterCalculateActivationSpeed(CalculateActivationSpeedHandler del, int priority = int.MaxValue)
+    public void RegisterCalculateActivationSpeed(CalculateActivationSpeedHandler del, int priority = int.MaxValue)
     {
         EventExtensions.AddWithPriority(del, priority,
             d => CalculateActivationSpeed += d,
             d => CalculateActivationSpeed -= d);
     }
 
-    public static void RegisterCalculateTurnRate(CalculateTurnRateHandler del, int priority = int.MaxValue)
+    public void RegisterCalculateTurnRate(CalculateTurnRateHandler del, int priority = int.MaxValue)
     {
         EventExtensions.AddWithPriority(del, priority,
             d => CalculateTurnRate += d,
             d => CalculateTurnRate -= d);
     }
 
-    public static void RegisterCalculateTerminalVelocity(CalculateTerminalVelocityHandler del, int priority = int.MaxValue)
+    public void RegisterCalculateTerminalVelocity(CalculateTerminalVelocityHandler del, int priority = int.MaxValue)
     {
         EventExtensions.AddWithPriority(del, priority,
             d => CalculateTerminalVelocity += d,
             d => CalculateTerminalVelocity -= d);
     }
 
-    internal static float InvokeCalculateActivationSpeed(Entity entity, EntityPos pos, float activation)
+    internal float InvokeCalculateActivationSpeed(Entity entity, EntityPos pos, float activation)
     {
         if (CalculateActivationSpeed != null) foreach (var item in CalculateActivationSpeed?.GetInvocationList())
         {
@@ -91,7 +91,7 @@ public class GliderEvents
         }
         return activation;
     }
-    internal static float InvokeCalculateStallSpeed(Entity entity, EntityPos pos, float stall)
+    internal float InvokeCalculateStallSpeed(Entity entity, EntityPos pos, float stall)
     {
         if (CalculateStallSpeed != null) foreach (var item in CalculateStallSpeed?.GetInvocationList())
         {
@@ -99,7 +99,7 @@ public class GliderEvents
         }
         return stall;
     }
-    internal static float InvokeCalculateDragCoefficient(Entity entity, EntityPos pos, float drag)
+    internal float InvokeCalculateDragCoefficient(Entity entity, EntityPos pos, float drag)
     {
         if (CalculateDragCoefficient != null) foreach (var item in CalculateDragCoefficient?.GetInvocationList())
         {
@@ -108,7 +108,7 @@ public class GliderEvents
         return drag;
     }
 
-    internal static float InvokeCalculateClimbCoefficient(Entity entity, EntityPos pos, float climb)
+    internal float InvokeCalculateClimbCoefficient(Entity entity, EntityPos pos, float climb)
     {
         if (CalculateClimbCoefficient != null) foreach (var item in CalculateClimbCoefficient?.GetInvocationList())
         {
@@ -117,7 +117,7 @@ public class GliderEvents
         return climb;
     }
 
-    internal static float InvokeCalculateTurnRate(Entity entity, EntityPos pos, float rate)
+    internal float InvokeCalculateTurnRate(Entity entity, EntityPos pos, float rate)
     {
         if (CalculateTurnRate != null) foreach (var item in CalculateTurnRate?.GetInvocationList())
         {
@@ -125,7 +125,7 @@ public class GliderEvents
         }
         return rate;
     }
-    internal static float InvokeCalculateTerminalVelocity(Entity entity, EntityPos pos, float velocity)
+    internal float InvokeCalculateTerminalVelocity(Entity entity, EntityPos pos, float velocity)
     {
         if (CalculateTerminalVelocity != null) foreach (var item in CalculateTerminalVelocity?.GetInvocationList())
         {
@@ -133,17 +133,18 @@ public class GliderEvents
         }
         return velocity;
     }
-    internal static bool InvokeBeforePhysicsCalculations(PModulePlayerInAir pModule, float dt, Entity entity, EntityPos pos, EntityControls controls)
+    internal bool InvokeBeforePhysicsCalculations(PModulePlayerInAir pModule, float dt, Entity entity, EntityPos pos, EntityControls controls)
     {
         return BeforePhysicsCalculations.InvokeUntil(pModule, dt, entity, pos, controls);
     }
-    internal static bool InvokeTryStartGlide(ModSystemGliding system, EntityPlayer entity)
+    internal bool InvokeTryStartGlide(ModSystemGliding system, EntityPlayer entity)
     {
         return TryStartGlide.InvokeUntil(system, entity);
     }
 
-    internal static void Init()
+    public GliderEvents()
     {
+        EventExtensions.priorityTable.Clear();
         TryStartGlide += CustomGliderPhysics.CanGlide;
         RegisterBeforeGliderPhysicsCalculations(CustomGliderPhysics.Calculate);
     }
@@ -151,7 +152,7 @@ public class GliderEvents
 }
 public static class EventExtensions
 {
-    private static readonly Dictionary<Type, PriorityQueue<Delegate, int>> priorityTable = [];
+    internal static readonly Dictionary<Type, PriorityQueue<Delegate, int>> priorityTable = [];
 
     extension(Delegate del)
     {
@@ -168,6 +169,7 @@ public static class EventExtensions
             return true;
         }
     }
+
     public static void AddWithPriority<T>(T del, int priority, Action<T> plus, Action<T> minus) where T : Delegate
     {
         var queue = priorityTable.GetValueOrDefault(typeof(T), new PriorityQueue<Delegate, int>());

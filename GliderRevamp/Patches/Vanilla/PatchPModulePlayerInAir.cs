@@ -10,7 +10,7 @@ public class PatchPModulePlayerInAir
 {
     public static bool Prefix(PModulePlayerInAir __instance, float dt, Entity entity, EntityPos pos, EntityControls controls)
     {
-        if (!GliderEvents.InvokeBeforePhysicsCalculations(__instance,dt,entity,pos,controls))
+        if (!GliderRevampModSystem.EVENTS.InvokeBeforePhysicsCalculations(__instance,dt,entity,pos,controls))
         {
             ReversePatch.ApplyFlying(__instance, dt, entity, pos, controls);
             return false;

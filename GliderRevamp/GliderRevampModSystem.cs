@@ -16,8 +16,10 @@ public sealed class GliderRevampModSystem : ModSystem
     private Harmony _harmony;
     private GliderSpeedHudElement _gliderSpeedHud;
 
+    public static GliderEvents EVENTS;
     public override void Start(ICoreAPI api)
     {
+        EVENTS = new GliderEvents();
         if (api.ModLoader.IsModEnabled(ConfigLibId))
         {
             SubscribeToConfigChange(api);
@@ -29,8 +31,6 @@ public sealed class GliderRevampModSystem : ModSystem
         {
             MadCrowPatches.Run(_harmony);
         }
-
-        GliderEvents.Init();
     }
 
     public override void StartClientSide(ICoreClientAPI capi)

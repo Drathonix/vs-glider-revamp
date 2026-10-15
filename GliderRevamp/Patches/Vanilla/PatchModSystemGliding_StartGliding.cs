@@ -12,7 +12,7 @@ public class PatchModSystemGliding_StartGliding
         {
             return false;
         }
-        if(!GliderEvents.InvokeTryStartGlide(__instance, entity))
+        if(!GliderRevampModSystem.EVENTS.InvokeTryStartGlide(__instance, entity))
         {
             return false;
         }

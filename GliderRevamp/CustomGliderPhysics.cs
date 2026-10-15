@@ -40,7 +40,7 @@ public class CustomGliderPhysics
 
         var v = pos.Motion;
         var speed = v.Length();
-        if (speed < GliderEvents.InvokeCalculateStallSpeed(entity,pos,ModConfig.Instance.StallSpeedMs) / 60f || config.DisableGlider)
+        if (speed < GliderRevampModSystem.EVENTS.InvokeCalculateStallSpeed(entity,pos,ModConfig.Instance.StallSpeedMs) / 60f || config.DisableGlider)
         {
             controls.Gliding = false;
             controls.GlideSpeed = 0;
@@ -55,7 +55,7 @@ public class CustomGliderPhysics
         var vDir = v.Normalize();
         var viewDir = pos.GetViewVector().ToVec3d().Normalize();
 
-        var turnRateRadPerSec = GliderEvents.InvokeCalculateTurnRate(entity,pos,config.TurnRate) * (float)Math.PI / 180f;
+        var turnRateRadPerSec = GliderRevampModSystem.EVENTS.InvokeCalculateTurnRate(entity,pos,config.TurnRate) * (float)Math.PI / 180f;
         var maxTurn = turnRateRadPerSec * dt;
 
         var newDir = RotateTowards(vDir, viewDir, maxTurn);
@@ -63,13 +63,13 @@ public class CustomGliderPhysics
         var energy = controls.GlideSpeed;
 
         // Apply lift.
-        energy -= GliderEvents.InvokeCalculateClimbCoefficient(entity,pos,config.ClimbCoefficiency) * v.Y * dt;
+        energy -= GliderRevampModSystem.EVENTS.InvokeCalculateClimbCoefficient(entity,pos,config.ClimbCoefficiency) * v.Y * dt;
 
         // Apply drag.
-        energy -= GliderEvents.InvokeCalculateDragCoefficient(entity,pos,config.DragCoefficiency) * Math.Max(speed * speed, 0.15f) * dt;
+        energy -= GliderRevampModSystem.EVENTS.InvokeCalculateDragCoefficient(entity,pos,config.DragCoefficiency) * Math.Max(speed * speed, 0.15f) * dt;
 
         // Limit new speed to terminal velocity.
-        energy = GameMath.Clamp(energy, 0, GliderEvents.InvokeCalculateTerminalVelocity(entity,pos,config.TerminalVelocityMs) / 60f);
+        energy = GameMath.Clamp(energy, 0, GliderRevampModSystem.EVENTS.InvokeCalculateTerminalVelocity(entity,pos,config.TerminalVelocityMs) / 60f);
 
         controls.GlideSpeed = energy;
 
@@ -84,7 +84,7 @@ public class CustomGliderPhysics
             return false;
         }
         var speedMs = entity.Pos.Motion.Length() * 60f;
-        var activationSpeed = GliderEvents.InvokeCalculateActivationSpeed(entity, entity.Pos, ModConfig.Instance.ActivationSpeedMs);
+        var activationSpeed = GliderRevampModSystem.EVENTS.InvokeCalculateActivationSpeed(entity, entity.Pos, ModConfig.Instance.ActivationSpeedMs);
         var upwardSpeed = entity.Pos.Motion.Y; // Prevent activation when jumping.
 
         return !(speedMs < activationSpeed || upwardSpeed > -3f / 60f);
