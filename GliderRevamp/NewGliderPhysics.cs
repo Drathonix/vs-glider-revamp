@@ -23,7 +23,7 @@ public class NewGliderPhysics: IPhysicsSystem
         pos.Motion.Add(
             (ComputeLiftVector(pos, density, surfaceArea)
         ).Add(
-            ComputeDragVector(pos, density, drag)
+            0,0,0//ComputeDragVector(pos, density, drag)
         ).Add(
             ComputeWeightVector(pos)
         )*dt);
@@ -34,14 +34,14 @@ public class NewGliderPhysics: IPhysicsSystem
 
     private void Turn(float dt, Entity entity, EntityPos pos, EntityControls controls)
     {
-        if (controls.Right)
+        /*if (controls.Right)
         {
             pos.Roll += 0.1F;
         }
         else if (controls.Left)
         {
             pos.Roll -= 0.1F;
-        }
+        }*/
     }
     private static readonly Vec3d GRAVITY = new (0, GlobalConstants.GravityPerSecond, 0);
     public static Vec3d ComputeWeightVector(EntityPos pos)//, double airDensity, double minDragStrength)
@@ -53,7 +53,7 @@ public class NewGliderPhysics: IPhysicsSystem
 
         Vec3d drag =
         drag = new Vec3d(drag.X * drag.X, drag.Y * drag.Y, drag.Z * drag.Z) / 2;*/
-        return GRAVITY.Clone();
+        return GRAVITY.Clone().Mul(-1);
     }
 
     private static readonly Vec3d UP = new (0, 1, 0);
@@ -70,6 +70,7 @@ public class NewGliderPhysics: IPhysicsSystem
         Vec3d lift = pos.Motion;
         lift = new Vec3d(lift.X * lift.X, lift.Y * lift.Y, lift.Z * lift.Z) / 2;
         Vec3d perpendicular = orientation.Cross(UP).Normalize();
+        Console.WriteLine($"({airDensity},{surfaceArea}):\nM: {pos.Motion}\nO: {orientation}\nL: {lift} + \nP: {perpendicular}");
         return perpendicular * airDensity * surfaceArea * lift.Length(); 
     }
 

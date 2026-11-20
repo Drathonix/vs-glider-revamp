@@ -1,6 +1,5 @@
 ﻿using ConfigLib;
 using GliderRevamp.HudElements;
-using GliderRevamp.Network;
 using System.Reflection;
 using Vintagestory.API.Server;
 
@@ -42,7 +41,6 @@ public sealed class GliderRevampModSystem : ModSystem
         
         _gliderSpeedHud = new GliderSpeedHudElement(capi);
         capi.Gui.RegisterDialog(_gliderSpeedHud);
-        ClientNetworkHandler.Init(capi);
     }
 
     public override void Dispose()
