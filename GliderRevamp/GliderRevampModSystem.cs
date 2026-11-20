@@ -17,8 +17,11 @@ public sealed class GliderRevampModSystem : ModSystem
     private GliderSpeedHudElement _gliderSpeedHud;
 
     public static GliderEvents EVENTS;
+
+    public static IPhysicsSystem ACTIVE_PHYSICS;
     public override void Start(ICoreAPI api)
     {
+        ACTIVE_PHYSICS = new NewGliderPhysics();
         EVENTS = new GliderEvents();
         if (api.ModLoader.IsModEnabled(ConfigLibId))
         {

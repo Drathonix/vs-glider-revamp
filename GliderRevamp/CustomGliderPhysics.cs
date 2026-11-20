@@ -7,7 +7,7 @@ using Vintagestory.API.MathTools;
 
 namespace GliderRevamp;
 
-public class CustomGliderPhysics
+public class CustomGliderPhysics: IPhysicsSystem
 {
     private static Vec3d RotateTowards(Vec3d fromDir, Vec3d toDir, double maxRadians)
     {
@@ -29,7 +29,7 @@ public class CustomGliderPhysics
         return blended.Normalize();
     }
 
-    public static bool Calculate(PModulePlayerInAir pModule, float dt, Entity entity, EntityPos pos, EntityControls controls)
+    public bool Calculate(float dt, Entity entity, EntityPos pos, EntityControls controls)
     {
         if (!controls.Gliding)
         {
@@ -90,4 +90,8 @@ public class CustomGliderPhysics
         return !(speedMs < activationSpeed || upwardSpeed > -3f / 60f);
     }
 
+    public bool ShouldApplyGravity(float dt, Entity entity, EntityPos pos, EntityControls controls)
+    {
+        return true;
+    }
 }

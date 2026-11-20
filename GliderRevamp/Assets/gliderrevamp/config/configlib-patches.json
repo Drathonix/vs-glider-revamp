@@ -104,7 +104,39 @@
         "min": 5.0,
         "max": 100.0
       }
+    },
+    {
+      "title": "Air Density Drop Off",
+      "code": "AirDensityDropOff",
+      "comment": "The point at which air density starts dropping causing the player to lose control. This value is a multiplier on the world config sea level.",
+      "type": "float",
+      "default": 2.0,
+      "range": {
+        "min": 0.0,
+        "max": 1000.0
+      }
+    },
+    {
+      "title": "Air Density Drop Off Max",
+      "code": "AirDensityDropOffMax",
+      "comment": "The total blocks above the density drop off point where there is considered to be no air.",
+      "type": "float",
+      "default": 128.0,
+      "range": {
+        "min": 1.0,
+        "max": 10000.0
+      }
+    },
+    {
+      "title": "Wing Surface Area",
+      "code": "WingSurfaceArea",
+      "comment": "The surface area of the wings, lower this to nerf glider performance, increase to buff. Recommend keeping at 1.",
+      "type": "float",
+      "default": 1,
+      "range": {
+        "min": 0.01,
+        "max": 10000.0
+      }
     }
   ]
 }
-

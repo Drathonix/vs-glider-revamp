@@ -26,7 +26,12 @@ public sealed class ModConfig
     public float DragCoefficiency { get; set; } = 0.1f;
 
     public float StallSpeedMs { get; set; } = 6f;
-    
+
+    public float AirDensityDropOff = 2F;
+    public float AirDensityDropOffMax = 128F;
+
+    public float WingSurfaceArea = 1F;
+
     public float ActivationSpeedMs { get; set; } = 8f;
 
     public float TerminalVelocityMs { get; set; } = 40f;  // m/s

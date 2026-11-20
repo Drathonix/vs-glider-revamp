@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Vintagestory.API.Common.Entities;
+using Vintagestory.API.Config;
 using Vintagestory.API.Util;
 using static GliderRevamp.GliderEvents;
 
@@ -31,8 +32,15 @@ public class GliderEvents
     public delegate float CalculateTerminalVelocityHandler(Entity entity, EntityPos pos, float velocity);
     private event CalculateTerminalVelocityHandler CalculateTerminalVelocity;
 
-    public delegate bool BeforeGliderPhysicsCalculationsHandler(PModulePlayerInAir pModule, float dt, Entity entity, EntityPos pos, EntityControls controls);
+    public delegate float CalculateSurfaceAreaHandler(Entity entity, float surfaceArea);
+    private event CalculateSurfaceAreaHandler CalculateSurfaceArea;
+
+    public delegate bool BeforeGliderPhysicsCalculationsHandler(float dt, Entity entity, EntityPos pos, EntityControls controls);
     private event BeforeGliderPhysicsCalculationsHandler BeforePhysicsCalculations;
+
+    public delegate bool ShouldApplyGravityHandler(float dt, Entity entity, EntityPos pos, EntityControls controls);
+    private event ShouldApplyGravityHandler ShouldApplyGravity;
+
 
     public void RegisterBeforeGliderPhysicsCalculations(BeforeGliderPhysicsCalculationsHandler del, int priority = int.MaxValue){
         // I POSSESS GREAT AND TERRIFYING POWER! HAHA!
@@ -81,6 +89,13 @@ public class GliderEvents
         EventExtensions.AddWithPriority(del, priority,
             d => CalculateTerminalVelocity += d,
             d => CalculateTerminalVelocity -= d);
+    }
+
+    public void RegisterCalculateTSurfaceArea(CalculateSurfaceAreaHandler del, int priority = int.MaxValue)
+    {
+        EventExtensions.AddWithPriority(del, priority,
+            d => CalculateSurfaceArea += d,
+            d => CalculateSurfaceArea -= d);
     }
 
     internal float InvokeCalculateActivationSpeed(Entity entity, EntityPos pos, float activation)
@@ -133,9 +148,24 @@ public class GliderEvents
         }
         return velocity;
     }
-    internal bool InvokeBeforePhysicsCalculations(PModulePlayerInAir pModule, float dt, Entity entity, EntityPos pos, EntityControls controls)
+
+    internal double InvokeCalculateSurfaceArea(Entity entity, float wingSurfaceArea)
     {
-        return BeforePhysicsCalculations.InvokeUntil(pModule, dt, entity, pos, controls);
+        if (CalculateSurfaceArea != null) foreach (var item in CalculateSurfaceArea?.GetInvocationList())
+        {
+            wingSurfaceArea = ((CalculateSurfaceAreaHandler)item).Invoke(entity, wingSurfaceArea);
+        }
+        return wingSurfaceArea;
+    }
+
+    internal bool InvokeBeforePhysicsCalculations(float dt, Entity entity, EntityPos pos, EntityControls controls)
+    {
+        return BeforePhysicsCalculations.InvokeUntil(dt, entity, pos, controls);
+    }
+
+    internal bool InvokeShouldApplyGravity(float dt, Entity entity, EntityPos pos, EntityControls controls)
+    {
+        return ShouldApplyGravity.InvokeUntil(dt, entity, pos, controls);
     }
     internal bool InvokeTryStartGlide(ModSystemGliding system, EntityPlayer entity)
     {
@@ -146,7 +176,8 @@ public class GliderEvents
     {
         EventExtensions.priorityTable.Clear();
         TryStartGlide += CustomGliderPhysics.CanGlide;
-        RegisterBeforeGliderPhysicsCalculations(CustomGliderPhysics.Calculate);
+        RegisterBeforeGliderPhysicsCalculations(GliderRevampModSystem.ACTIVE_PHYSICS.Calculate);
+        ShouldApplyGravity += GliderRevampModSystem.ACTIVE_PHYSICS.ShouldApplyGravity;
     }
 
 }
